@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رادار محدث</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  
+    
+    <link rel="stylesheet" href="Leaflet.NavBar.css"/>
+    
+   
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-minimap@3.6.1/dist/Control.MiniMap.min.css" />
+    
+    
+    
+    
+
+
+
+
+
+
+
+    
+</head>
+
+<style>
+
+
+
+    
+        .leaflet-bottom {
+            position: absolute;
+            bottom: 10px;
+        }
+
+        .leaflet-right {
+            position: absolute;
+            right: 10px;
+        }
+
+        .leaflet-control-attribution {
+            background: rgba(0, 0, 0, 0);
+            display: flex;
+            align-items: center;
+        }
+
+        .info-icon {
+            width: 36px;
+            opacity: 2;
+            box-shadow: inset 0px 0px 19px 0px black;
+            border-radius: 20px;
+            margin-right: 5px;
+        }
+
+        .info-page {
+            display: none;
+            color: guest; 
+            font-size: 14px;
+        }
+    </style>
+
+
+
+<!-- ... Previous head content ... -->
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    #map {
+        width: 100%;
+        height: 100vh;
+    }
+</style>
+</head>
+<body>
+
+
+
+    <div class="leaflet-bottom">
+        <div class="leaflet-control-attribution leaflet-control">
+            <button onclick="toggleInfoPage()" class="info-icon">
+                <img src="info.svg">
+            </button>
+            <div class="info-page" id="infoPage" style="display: none;">
+                <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a>
+                <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>
+                <a href="https://www.rainviewer.com" target="_blank">&copy; Rainviewer</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        var infoPageVisible = false;
+    
+        function toggleInfoPage() {
+            var infoPage = document.getElementById('infoPage');
+            if (infoPageVisible) {
+                infoPage.style.display = 'none';
+                infoPageVisible = false;
+            } else {
+                infoPage.style.display = 'block';
+                infoPageVisible = true;
+            }
+        }
+    </script>
+    
+
+  <!--  <div class="leaflet-bottom">
+        <div class="leaflet-control-attribution leaflet-control">
+             Use a button instead of an anchor tag 
+            <button onclick="toggleInfoPage()" class="info-icon">
+                <img src="info.svg">
+            </button>
+            <div class="info-page" id="infoPage">
+                <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a>
+                <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>
+                <a href="https://www.rainviewer.com" target="_blank">&copy; Rainviewer</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleInfoPage() {
+            var infoPage = document.getElementById('infoPage');
+            infoPage.style.display = infoPage.style.display === 'none' ? 'block' : 'none';
+        }
+    </script> -->
+    
+ <!-- 
+<div class="leaflet-bottom">
+    <div class="leaflet-control-attribution leaflet-control">
+        <a href="#" onclick="showAttr(event)">
+            <img src="info.svg" class="info-icon">
+        </a>
+        
+        <div class="info-page" id="infoPage">
+            <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a>
+            <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>
+            <a href="https://www.rainviewer.com" target="_blank">&copy; Rainviewer</a>
+        </div>
+    </div>
+</div>
+    
+<script>
+    function showAttr(event) {
+        // Prevent the default behavior of the anchor tag
+        event.preventDefault();
+
+        // Toggle the visibility of the info page
+        var infoPage = document.getElementById('infoPage');
+        infoPage.style.display = infoPage.style.display === 'none' ? 'block' : 'none';
+    }
+</script>
+-->
+
+
+
+
+    <div id="map"></div>
+
+    
+
+    <!-- Leaflet and Rainviewer Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <link rel="stylesheet" href="leaflet.rainviewer.css"/>
+    <script src="leaflet.rainviewer.js"></script>
+       
+    <script src="https://unpkg.com/leaflet-minimap@3.6.1/dist/Control.MiniMap.min.js"></script>
+
+    <script src="Leaflet.NavBar.js"></script>
+
+    <script>
+         var map = L.map('map', {
+        attributionControl: false // Disable default attribution
+    }).setView([24.755562, 46.589584], 6);
+
+
+        // OpenStreetMap Tile Layer
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+
+    
+          
+        }).addTo(map);
+
+        
+
+
+
+        var clear = L.tileLayer('https://api.maptiler.com/maps/satellite/{z}/{x}/{y}.jpg?key=1uNbaBUd7Esgc7Ygbllp', {
+
+	
+});clear.addTo(map)
+
+
+
+        // Rainviewer Control
+        var rainviewerControl = L.control.rainviewer({ 
+            position: 'topleft',
+            nextButtonText: '>',
+            playStopButtonText: 'إيقاف/تشغيل',
+            prevButtonText: '<',
+            positionSliderLabelText: "التحكم بالوقت:",
+            opacitySliderLabelText: "التحكم بالوضوح:",
+            animationInterval: 500,
+            opacity: 0.5
+        }).addTo(map);
+
+
+         // MiniMap
+    var miniMap = new L.Control.MiniMap(
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png'),
+        { toggleDisplay: true, position: 'topright' }
+    ).addTo(map);
+
+      
+        var nav= L.control.navbar({
+            position:'topright'
+        
+        });nav.addTo(map)
+       
+
+    </script>
+</body>
+</html>
